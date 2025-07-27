@@ -74,7 +74,7 @@ export default function SignupScreen({ navigation }) {
       const response = await fetch('../api/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
           gmail: trimmedEmail,
