@@ -13,7 +13,7 @@ const ProfileDetailsScreen = ({ navigation }) => {
       try {
         const storedId = await AsyncStorage.getItem('user_id');
         if (storedId) {
-          const response = await fetch(`http://192.168.0.93/RESIDENT_COPY1/database/profiledetails.php?user_id=${storedId}`);
+          const response = await fetch(`http://brgygo.great-site.net/resident_database/profiledetails.php?user_id=${storedId}`);
           const data = await response.json();
 
           if (!data.error) {
