@@ -71,7 +71,7 @@ export default function SignupScreen({ navigation }) {
     if (!valid) return;
 
     try {
-      const response = await fetch('https://brgygo.vercel.app/api/signup', {
+      const response = await fetch('https://brgygo.vercel.app/api/signup.js', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
