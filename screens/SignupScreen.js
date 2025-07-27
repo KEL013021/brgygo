@@ -71,7 +71,7 @@ export default function SignupScreen({ navigation }) {
     if (!valid) return;
 
     try {
-       const response = await fetch('http://brgygo.great-site.net/resident_database/signup.php', {
+       const response = await fetch('https://brgygo.great-site.net/resident_database/signup.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
