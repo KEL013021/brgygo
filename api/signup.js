@@ -1,8 +1,10 @@
+// File: /api/signup.js
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
-
+https://github.com/KEL013021/brgygo/blob/main/api/signup.js
   try {
     const response = await fetch('https://brgygo.great-site.net/resident_database/signup.php', {
       method: 'POST',
@@ -12,19 +14,10 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const text = await response.text();  // kunin raw text para makita
-    console.log('Raw response from InfinityFree:', text);  // log it
-
-    // Subukang i-parse kung JSON
-    try {
-      const data = JSON.parse(text);
-      res.status(200).json(data);
-    } catch (parseError) {
-      console.error('Response is not valid JSON:', text);
-      res.status(500).json({ message: 'Invalid JSON response from backend', raw: text });
-    }
+    const result = await response.json();
+    return res.status(response.status).json(result);
   } catch (error) {
     console.error('Proxy error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Server error (proxy)' });
   }
 }
