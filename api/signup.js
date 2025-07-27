@@ -1,26 +1,30 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Only POST allowed' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
-
-  const formData = new URLSearchParams();
-  formData.append('gmail', req.body.gmail);
-  formData.append('password', req.body.password);
-  formData.append('toa', 'true');
 
   try {
     const response = await fetch('https://brgygo.great-site.net/resident_database/signup.php', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: formData.toString(),
+      body: JSON.stringify(req.body),
     });
 
-    const text = await response.text(); // Assuming PHP returns text
-    res.status(200).send(text); // You can parse it if JSON is returned
+    const text = await response.text();  // kunin raw text para makita
+    console.log('Raw response from InfinityFree:', text);  // log it
+
+    // Subukang i-parse kung JSON
+    try {
+      const data = JSON.parse(text);
+      res.status(200).json(data);
+    } catch (parseError) {
+      console.error('Response is not valid JSON:', text);
+      res.status(500).json({ message: 'Invalid JSON response from backend', raw: text });
+    }
   } catch (error) {
     console.error('Proxy error:', error);
-    res.status(500).json({ message: 'Proxy error', error: error.message });
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
